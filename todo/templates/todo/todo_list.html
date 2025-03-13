@@ -6,7 +6,7 @@
 {% block content %}
 <div class="row g-4">
     <div class="col-lg-4">
-        <div class="card h-100">
+        <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">
                     <i class="fas fa-plus-circle me-2"></i>Add New Task
@@ -24,16 +24,87 @@
         </div>
     </div>
     <div class="col-lg-8">
-        <div class="card h-100">
+        <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">
                     <i class="fas fa-tasks me-2"></i>Your Tasks
                 </h5>
                 
+                <!-- Progress Statistics -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card stats-card">
+                            <div class="card-body">
+                                <h6 class="card-title text-center">
+                                    <i class="fas fa-chart-line me-2"></i>Progress Overview
+                                </h6>
+                                <div class="row">
+                                    {% for goal_type, stats in goal_stats.items %}
+                                        <div class="col-md-3 col-sm-6 mb-3">
+                                            <div class="card h-100 goal-card goal-card-{{ goal_type }}">
+                                                <div class="card-body p-3">
+                                                    <h6 class="card-subtitle mb-2 goal-title">
+                                                        <i class="goal-icon fas {% if goal_type == 'daily' %}fa-calendar-day{% elif goal_type == 'weekly' %}fa-calendar-week{% elif goal_type == 'monthly' %}fa-calendar-alt{% else %}fa-calendar{% endif %} me-2"></i>
+                                                        {{ goal_type|title }} Goals
+                                                    </h6>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="badge bg-light text-dark">Tasks: {{ stats.total }}</span>
+                                                        <span class="badge {% if stats.completed > 0 %}bg-success{% else %}bg-secondary{% endif %}">Completed: {{ stats.completed }}</span>
+                                                    </div>
+                                                    <div class="progress mb-2 goal-progress">
+                                                        <div class="progress-bar progress-bar-{{ goal_type }}" role="progressbar" 
+                                                             style="width: {{ stats.avg_progress }}%;" 
+                                                             aria-valuenow="{{ stats.avg_progress }}" 
+                                                             aria-valuemin="0" 
+                                                             aria-valuemax="100">
+                                                            {{ stats.avg_progress|floatformat:1 }}%
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center mt-2">
+                                                        <small class="text-muted">Average Progress</small>
+                                                        {% if stats.completion_rate > 0 %}
+                                                            <div class="completion-rate">
+                                                                <small class="text-success">{{ stats.completion_rate|floatformat:1 }}% completion rate</small>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Progress Statistics -->
+                
+                <!-- Filter Buttons -->
+                <div class="mb-4">
+                    <div class="btn-group w-100 filter-buttons">
+                        <a href="{% url 'todo_list' %}" class="btn {% if not current_filter %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                            <i class="fas fa-list-ul me-1"></i> All
+                        </a>
+                        <a href="{% url 'todo_list' %}?goal_type=daily" class="btn {% if current_filter == 'daily' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                            <i class="fas fa-calendar-day me-1"></i> Daily
+                        </a>
+                        <a href="{% url 'todo_list' %}?goal_type=weekly" class="btn {% if current_filter == 'weekly' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                            <i class="fas fa-calendar-week me-1"></i> Weekly
+                        </a>
+                        <a href="{% url 'todo_list' %}?goal_type=monthly" class="btn {% if current_filter == 'monthly' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                            <i class="fas fa-calendar-alt me-1"></i> Monthly
+                        </a>
+                        <a href="{% url 'todo_list' %}?goal_type=yearly" class="btn {% if current_filter == 'yearly' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                            <i class="fas fa-calendar me-1"></i> Yearly
+                        </a>
+                    </div>
+                </div>
+                <!-- End Filter Buttons -->
+                
                 {% if todos %}
                     <div class="list-group task-list">
                         {% for todo in todos %}
-                            <div class="list-group-item task-item {% if todo.completed %}bg-light{% endif %}">
+                            <div class="list-group-item task-item {% if todo.completed %}bg-light{% endif %} task-{{ todo.goal_type }}">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="task-content">
                                         <h6 class="mb-1 {% if todo.completed %}text-decoration-line-through{% endif %}">
@@ -43,6 +114,7 @@
                                                 <i class="far fa-circle me-2"></i>
                                             {% endif %}
                                             {{ todo.title }}
+                                            <span class="badge goal-badge-{{ todo.goal_type }} ms-2">{{ todo.get_goal_type_display }}</span>
                                         </h6>
                                         {% if todo.description %}
                                             <p class="mb-1 {% if todo.completed %}text-decoration-line-through text-muted{% endif %}">
@@ -53,11 +125,24 @@
                                             <i class="far fa-calendar-alt me-1"></i>
                                             Created: {{ todo.created_at|date:"M d, Y H:i" }}
                                         </small>
-                                        <br>
-                                        <small class="text-muted">
-                                            <i class="fas fa-flag me-1"></i>
-                                            Goal Type: {{ todo.get_goal_type_display }}
-                                        </small>
+                                        <div class="progress mt-3 task-progress">
+                                            <div class="progress-bar progress-bar-{{ todo.goal_type }}" role="progressbar" 
+                                                 style="width: {{ todo.progress }}%;" 
+                                                 aria-valuenow="{{ todo.progress }}" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                                {{ todo.progress }}%
+                                            </div>
+                                        </div>
+                                        <div class="progress-update mt-2">
+                                            <form method="post" action="{% url 'update_progress' todo.pk %}" class="d-flex align-items-center">
+                                                {% csrf_token %}
+                                                <input type="number" name="progress" min="0" max="100" value="{{ todo.progress }}" class="form-control form-control-sm me-2" style="width: 70px;">
+                                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-sync-alt"></i> Update
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                     <div class="btn-group task-actions">
                                         <a href="{% url 'todo_toggle' todo.pk %}" class="btn btn-sm {% if todo.completed %}btn-outline-warning{% else %}btn-outline-success{% endif %}" title="{% if todo.completed %}Mark as incomplete{% else %}Mark as complete{% endif %}">
@@ -79,7 +164,7 @@
                         {% endfor %}
                     </div>
                 {% else %}
-                    <div class="text-center py-5">
+                    <div class="text-center py-5 empty-state">
                         <i class="fas fa-clipboard-list fa-4x text-muted mb-3"></i>
                         <p class="text-muted">No tasks yet. Add one to get started!</p>
                     </div>
@@ -90,12 +175,31 @@
 </div>
 
 <style>
+    /* Task Item Styles */
     .task-item {
         transition: all 0.3s ease;
+        border-left: 4px solid var(--border-color);
     }
     
     .task-item:hover {
         transform: translateX(5px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .task-daily {
+        border-left-color: #3b82f6;
+    }
+    
+    .task-weekly {
+        border-left-color: #8b5cf6;
+    }
+    
+    .task-monthly {
+        border-left-color: #ec4899;
+    }
+    
+    .task-yearly {
+        border-left-color: #f59e0b;
     }
     
     .task-actions {
@@ -115,6 +219,181 @@
         .task-content {
             max-width: 60%;
         }
+    }
+
+    /* Progress Bar Styles */
+    .progress {
+        height: 20px;
+        background-color: var(--progress-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .task-progress {
+        height: 16px;
+    }
+
+    .goal-progress {
+        height: 12px;
+    }
+
+    .progress-bar {
+        transition: width 0.4s ease;
+        color: white;
+        font-weight: 500;
+        height: 100%;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+    
+    .progress-bar-daily {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+    
+    .progress-bar-weekly {
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    }
+    
+    .progress-bar-monthly {
+        background: linear-gradient(135deg, #ec4899, #db2777);
+    }
+    
+    .progress-bar-yearly {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .progress-bar[aria-valuenow="100"] {
+        background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .progress-bar[aria-valuenow="0"] {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+    
+    /* Goal Card Styles */
+    .stats-card {
+        background-color: rgba(var(--card-bg-rgb, 255, 255, 255), 0.8);
+        backdrop-filter: blur(10px);
+        border: none;
+    }
+    
+    .goal-card {
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .goal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .goal-card-daily {
+        border-top: 3px solid #3b82f6;
+    }
+    
+    .goal-card-weekly {
+        border-top: 3px solid #8b5cf6;
+    }
+    
+    .goal-card-monthly {
+        border-top: 3px solid #ec4899;
+    }
+    
+    .goal-card-yearly {
+        border-top: 3px solid #f59e0b;
+    }
+    
+    .goal-title {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-color);
+    }
+    
+    .goal-icon {
+        opacity: 0.8;
+    }
+    
+    .completion-rate {
+        margin-top: 5px;
+        font-size: 0.8rem;
+    }
+    
+    /* Badge Styles */
+    .goal-badge-daily {
+        background-color: #3b82f6;
+        font-size: 0.7rem;
+    }
+    
+    .goal-badge-weekly {
+        background-color: #8b5cf6;
+        font-size: 0.7rem;
+    }
+    
+    .goal-badge-monthly {
+        background-color: #ec4899;
+        font-size: 0.7rem;
+    }
+    
+    .goal-badge-yearly {
+        background-color: #f59e0b;
+        font-size: 0.7rem;
+    }
+    
+    /* Filter Button Styles */
+    .filter-buttons .btn {
+        border-radius: 8px;
+        margin: 0 2px;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    /* Dark mode specific styles */
+    [data-theme='dark'] .goal-card {
+        background-color: var(--card-bg);
+    }
+    
+    [data-theme='dark'] .text-success {
+        color: #34d399 !important;
+    }
+    
+    [data-theme='dark'] .card-subtitle {
+        color: var(--light-text);
+    }
+    
+    [data-theme='dark'] .stats-card {
+        background-color: rgba(31, 41, 55, 0.8);
+    }
+    
+    [data-theme='dark'] .task-item.bg-light {
+        background-color: rgba(31, 41, 55, 0.5) !important;
+    }
+    
+    [data-theme='dark'] .btn-outline-primary {
+        color: #93c5fd;
+    }
+    
+    [data-theme='dark'] .btn-outline-success {
+        color: #34d399;
+    }
+    
+    [data-theme='dark'] .btn-outline-danger {
+        color: #f87171;
+    }
+    
+    [data-theme='dark'] .btn-outline-warning {
+        color: #fbbf24;
     }
 </style>
 {% endblock %} 

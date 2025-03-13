@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Light Theme Colors */
             --primary-color: #6366f1;
             --primary-hover: #4f46e5;
             --secondary-color: #f9fafb;
@@ -20,12 +21,54 @@
             --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --background-color: #f3f4f6;
             --background-image: url('https://www.transparenttextures.com/patterns/white-wall.png');
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --input-bg: #ffffff;
+            --input-border: #d1d5db;
+            --input-focus: #3b82f6;
+            --header-gradient-start: #6366f1;
+            --header-gradient-end: #4f46e5;
+            --badge-bg: #e5e7eb;
+            --badge-text: #1f2937;
+            --card-title-color: #4f46e5;
+            --form-text: #4b5563;
+            --list-hover: #f9fafb;
+            --progress-bg: #e5e7eb;
+            --btn-text: #ffffff;
+            --btn-outline-text: #6366f1;
+            --completed-bg: #f3f4f6;
+            --completed-text: #9ca3af;
+            --footer-text: #6b7280;
+            --theme-toggle-color: #ffffff;
         }
         
         [data-theme='dark'] {
-            --background-color: #1f2937;
-            --text-color: #f3f4f6;
+            /* Dark Theme Colors */
+            --background-color: #111827;
+            --text-color: #f9fafb;
+            --light-text: #e5e7eb;
             --background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            --card-bg: #1f2937;
+            --border-color: #374151;
+            --input-bg: #374151;
+            --input-border: #4b5563;
+            --input-focus: #6366f1;
+            --header-gradient-start: #4f46e5;
+            --header-gradient-end: #3730a3;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            --secondary-color: #374151;
+            --badge-bg: #374151;
+            --badge-text: #e5e7eb;
+            --card-title-color: #818cf8;
+            --form-text: #d1d5db;
+            --list-hover: #2d3748;
+            --progress-bg: #374151;
+            --btn-text: #ffffff;
+            --btn-outline-text: #818cf8;
+            --completed-bg: #1f2937;
+            --completed-text: #9ca3af;
+            --footer-text: #d1d5db;
+            --theme-toggle-color: #ffffff;
         }
         
         body {
@@ -33,10 +76,11 @@
             background-color: var(--background-color);
             background-image: var(--background-image);
             color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            background: linear-gradient(135deg, var(--header-gradient-start), var(--header-gradient-end));
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
         }
@@ -51,7 +95,8 @@
             border: none;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            background-color: var(--card-bg);
         }
         
         .card:hover {
@@ -61,10 +106,11 @@
         
         .card-title {
             font-weight: 600;
-            color: var(--primary-color);
+            color: var(--card-title-color);
             margin-bottom: 1.5rem;
-            border-bottom: 2px solid #e5e7eb;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 0.75rem;
+            transition: color 0.3s ease, border-color 0.3s ease;
         }
         
         .btn-primary {
@@ -74,12 +120,25 @@
             padding: 0.5rem 1.5rem;
             border-radius: 8px;
             transition: all 0.3s ease;
+            color: var(--btn-text);
         }
         
         .btn-primary:hover {
             background-color: var(--primary-hover);
             border-color: var(--primary-hover);
             transform: translateY(-2px);
+        }
+        
+        .btn-outline-primary {
+            color: var(--btn-outline-text);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--btn-text);
         }
         
         .btn-outline-success {
@@ -90,6 +149,7 @@
         .btn-outline-success:hover {
             background-color: var(--success-color);
             border-color: var(--success-color);
+            color: var(--btn-text);
         }
         
         .btn-outline-danger {
@@ -100,6 +160,7 @@
         .btn-outline-danger:hover {
             background-color: var(--danger-color);
             border-color: var(--danger-color);
+            color: var(--btn-text);
         }
         
         .alert {
@@ -115,39 +176,145 @@
         .list-group-item {
             border-radius: 8px !important;
             margin-bottom: 0.75rem;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--border-color);
             padding: 1rem;
             transition: all 0.3s ease;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
         
         .list-group-item:hover {
-            background-color: #f9fafb;
+            background-color: var(--list-hover);
         }
         
         .text-decoration-line-through {
-            color: var(--light-text);
+            color: var(--completed-text);
         }
         
         .app-header {
             text-align: center;
             margin-bottom: 2rem;
+            position: relative;
         }
         
         .app-header h1 {
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--card-title-color);
             margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+        
+        .app-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+            border-radius: 3px;
+            transition: background 0.3s ease;
         }
         
         .app-header p {
             color: var(--light-text);
             font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
         }
         
         .theme-toggle {
             cursor: pointer;
             font-size: 1.2rem;
+            color: var(--theme-toggle-color);
+            transition: transform 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(15deg);
+        }
+        
+        .form-control, .form-select {
+            background-color: var(--input-bg);
+            border-color: var(--input-border);
             color: var(--text-color);
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+            color: var(--text-color);
+        }
+        
+        .form-control::placeholder {
+            color: var(--light-text);
+            opacity: 0.7;
+        }
+        
+        .form-label {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .form-text, .text-muted {
+            color: var(--form-text) !important;
+            transition: color 0.3s ease;
+        }
+        
+        .badge {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .badge.bg-light {
+            background-color: var(--badge-bg) !important;
+            color: var(--badge-text) !important;
+        }
+        
+        .progress {
+            background-color: var(--progress-bg);
+            transition: background-color 0.3s ease;
+        }
+        
+        .bg-light {
+            background-color: var(--completed-bg) !important;
+            transition: background-color 0.3s ease;
+        }
+        
+        footer {
+            background-color: var(--card-bg);
+            color: var(--footer-text);
+            border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Fix for dark mode input text */
+        [data-theme='dark'] .form-control,
+        [data-theme='dark'] .form-select,
+        [data-theme='dark'] .form-control:focus,
+        [data-theme='dark'] .form-select:focus {
+            color: var(--text-color);
+        }
+        
+        /* Fix for dark mode badges */
+        [data-theme='dark'] .badge.bg-secondary {
+            background-color: #4b5563 !important;
+        }
+        
+        /* Fix for dark mode buttons */
+        [data-theme='dark'] .btn-outline-primary {
+            color: #a5b4fc;
+        }
+        
+        [data-theme='dark'] .btn-outline-primary:hover {
+            color: #ffffff;
         }
         
         @media (max-width: 768px) {
@@ -175,7 +342,7 @@
                     </li>
                     <li class="nav-item">
                         <span id="theme-toggle" class="nav-link theme-toggle">
-                            <i class="fas fa-adjust"></i> Toggle Theme
+                            <i class="fas fa-adjust me-1"></i> Toggle Theme
                         </span>
                     </li>
                 </ul>
@@ -202,7 +369,7 @@
         {% endblock %}
     </div>
 
-    <footer class="mt-5 py-3 text-center text-muted">
+    <footer class="mt-5 py-3 text-center">
         <div class="container">
             <p>TaskMaster &copy; {% now "Y" %} | Organize your life with ease</p>
         </div>
@@ -213,12 +380,33 @@
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('theme-toggle');
             const currentTheme = localStorage.getItem('theme') || 'light';
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Apply saved theme
             document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            // Update icon based on current theme
+            if (currentTheme === 'dark') {
+                themeIcon.classList.remove('fa-adjust');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
 
             themeToggle.addEventListener('click', function() {
                 const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
+                
+                // Update icon
+                if (newTheme === 'dark') {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
             });
         });
     </script>
