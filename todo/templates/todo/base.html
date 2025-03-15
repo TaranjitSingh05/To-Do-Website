@@ -9,66 +9,92 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Theme Colors */
-            --primary-color: #6366f1;
-            --primary-hover: #4f46e5;
-            --secondary-color: #f9fafb;
-            --text-color: #1f2937;
-            --light-text: #6b7280;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --warning-color: #f59e0b;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --background-color: #f3f4f6;
-            --background-image: url('https://www.transparenttextures.com/patterns/white-wall.png');
+            /* New Color Theme */
+            --dark-bg: #222831;
+            --medium-bg: #393E46;
+            --accent-color: #00ADB5;
+            --light-color: #EEEEEE;
+            
+            /* Derived Colors */
+            --accent-hover: #008f96;
+            --accent-rgb: 0, 173, 181;
+            --light-rgb: 238, 238, 238;
+            --dark-rgb: 34, 40, 49;
+            --medium-rgb: 57, 62, 70;
+            
+            /* Applying to Variables */
+            --primary-color: #00ADB5;
+            --primary-hover: #008f96;
+            --primary-color-rgb: 0, 173, 181;
+            --primary-hover-rgb: 0, 143, 150;
+            --secondary-color: #393E46;
+            --text-color: #EEEEEE;
+            --light-text: #EEEEEE;
+            --success-color: #00ADB5;
+            --danger-color: #ff6b6b;
+            --warning-color: #ffd166;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --background-color: #222831;
+            --background-image: url('https://www.transparenttextures.com/patterns/dark-geometric.png');
+            --card-bg: #393E46;
+            --border-color: #4a4f57;
+            --input-bg: #2c3440;
+            --input-border: #4a4f57;
+            --input-focus: #00ADB5;
+            --header-gradient-start: #00ADB5;
+            --header-gradient-end: #008f96;
+            --header-gradient-start-rgb: 0, 173, 181;
+            --header-gradient-end-rgb: 0, 143, 150;
+            --badge-bg: #4a4f57;
+            --badge-text: #EEEEEE;
+            --card-title-color: #00ADB5;
+            --form-text: #EEEEEE;
+            --list-hover: #2c3440;
+            --progress-bg: #2c3440;
+            --btn-text: #EEEEEE;
+            --btn-outline-text: #00ADB5;
+            --completed-bg: #2c3440;
+            --completed-text: #a0a0a0;
+            --footer-text: #EEEEEE;
+            --theme-toggle-color: #EEEEEE;
+        }
+        
+        [data-theme='light'] {
+            /* Light Theme with the Same Color Palette */
+            --background-color: #EEEEEE;
+            --text-color: #222831;
+            --light-text: #393E46;
+            --background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
             --card-bg: #ffffff;
-            --border-color: #e5e7eb;
+            --border-color: #d1d5db;
             --input-bg: #ffffff;
             --input-border: #d1d5db;
-            --input-focus: #3b82f6;
-            --header-gradient-start: #6366f1;
-            --header-gradient-end: #4f46e5;
+            --input-focus: #00ADB5;
+            --header-gradient-start: #00ADB5;
+            --header-gradient-end: #008f96;
+            --header-gradient-start-rgb: 0, 173, 181;
+            --header-gradient-end-rgb: 0, 143, 150;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --secondary-color: #f9fafb;
             --badge-bg: #e5e7eb;
-            --badge-text: #1f2937;
-            --card-title-color: #4f46e5;
-            --form-text: #4b5563;
+            --badge-text: #222831;
+            --card-title-color: #00ADB5;
+            --form-text: #393E46;
             --list-hover: #f9fafb;
             --progress-bg: #e5e7eb;
             --btn-text: #ffffff;
-            --btn-outline-text: #6366f1;
+            --btn-outline-text: #00ADB5;
             --completed-bg: #f3f4f6;
             --completed-text: #9ca3af;
-            --footer-text: #6b7280;
+            --footer-text: #393E46;
             --theme-toggle-color: #ffffff;
-        }
-        
-        [data-theme='dark'] {
-            /* Dark Theme Colors */
-            --background-color: #111827;
-            --text-color: #f9fafb;
-            --light-text: #e5e7eb;
-            --background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-            --card-bg: #1f2937;
-            --border-color: #374151;
-            --input-bg: #374151;
-            --input-border: #4b5563;
-            --input-focus: #6366f1;
-            --header-gradient-start: #4f46e5;
-            --header-gradient-end: #3730a3;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-            --secondary-color: #374151;
-            --badge-bg: #374151;
-            --badge-text: #e5e7eb;
-            --card-title-color: #818cf8;
-            --form-text: #d1d5db;
-            --list-hover: #2d3748;
-            --progress-bg: #374151;
-            --btn-text: #ffffff;
-            --btn-outline-text: #818cf8;
-            --completed-bg: #1f2937;
-            --completed-text: #9ca3af;
-            --footer-text: #d1d5db;
-            --theme-toggle-color: #ffffff;
+            --primary-color: #00ADB5;
+            --primary-hover: #008f96;
+            --primary-color-rgb: 0, 173, 181;
+            --primary-hover-rgb: 0, 143, 150;
+            --success-color: #00ADB5;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
         }
         
         body {
@@ -81,14 +107,67 @@
         
         .navbar {
             background: linear-gradient(135deg, var(--header-gradient-start), var(--header-gradient-end));
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .navbar-brand {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1.5rem;
             letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .navbar-brand i {
+            display: inline-block;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover i {
+            transform: translateY(-3px) scale(1.2);
+        }
+        
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--theme-toggle-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 80%;
+        }
+        
+        .theme-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .theme-toggle i {
+            transition: transform 0.5s ease;
+        }
+        
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
         }
         
         .card {
@@ -97,36 +176,35 @@
             box-shadow: var(--card-shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             background-color: var(--card-bg);
+            overflow: hidden;
+            border-top: 4px solid var(--primary-color);
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
         .card-title {
-            font-weight: 600;
             color: var(--card-title-color);
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.75rem;
-            transition: color 0.3s ease, border-color 0.3s ease;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            font-weight: 500;
-            padding: 0.5rem 1.5rem;
-            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            border: none;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
             transition: all 0.3s ease;
-            color: var(--btn-text);
         }
         
         .btn-primary:hover {
-            background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
+            background: linear-gradient(135deg, var(--primary-hover), var(--primary-color));
             transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(79, 70, 229, 0.3);
         }
         
         .btn-outline-primary {
@@ -194,49 +272,21 @@
         .app-header {
             text-align: center;
             margin-bottom: 2rem;
-            position: relative;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(var(--header-gradient-start-rgb), 0.05), rgba(var(--header-gradient-end-rgb), 0.05));
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
         }
         
         .app-header h1 {
             font-weight: 700;
-            color: var(--card-title-color);
+            color: var(--primary-color);
             margin-bottom: 0.5rem;
-            position: relative;
-            display: inline-block;
-            transition: color 0.3s ease;
-        }
-        
-        .app-header h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
-            border-radius: 3px;
-            transition: background 0.3s ease;
         }
         
         .app-header p {
             color: var(--light-text);
             font-size: 1.1rem;
-            margin-top: 1rem;
-            transition: color 0.3s ease;
-        }
-        
-        .theme-toggle {
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--theme-toggle-color);
-            transition: transform 0.3s ease, color 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-        
-        .theme-toggle:hover {
-            transform: rotate(15deg);
         }
         
         .form-control, .form-select {
@@ -322,6 +372,175 @@
                 padding: 1rem;
             }
         }
+        
+        .todo-item {
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--card-bg);
+        }
+        
+        .todo-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .todo-item.completed {
+            border-left-color: var(--success-color);
+            background-color: var(--completed-bg);
+        }
+        
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            background-color: var(--progress-bg);
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(to right, #00ADB5, #008f96);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .todo-item.completed .progress-bar {
+            background: linear-gradient(to right, #00ADB5, #00c3cc);
+        }
+        
+        .goal-card {
+            border-radius: 10px;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .goal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .goal-card-daily {
+            border-top: 3px solid #00ADB5;
+        }
+        
+        .goal-card-weekly {
+            border-top: 3px solid #00c3cc;
+        }
+        
+        .goal-card-monthly {
+            border-top: 3px solid #00d6e0;
+        }
+        
+        .goal-card-yearly {
+            border-top: 3px solid #00e8f2;
+        }
+        
+        .goal-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        /* Congratulatory message styling */
+        .congrats-alert {
+            animation: fadeInUp 0.6s ease-out forwards;
+            border-left: 4px solid #00ADB5;
+            background-color: rgba(0, 173, 181, 0.1);
+            color: var(--text-color);
+        }
+        
+        .congrats-badge {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card, .todo-item, .app-header {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .alert {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        /* Congratulatory Modal Styling */
+        .congrats-modal-content {
+            background: linear-gradient(135deg, var(--dark-bg), var(--medium-bg));
+            border: none;
+            color: var(--light-color);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .congrats-icon {
+            color: var(--primary-color);
+            animation: bounceIn 1s ease-out;
+        }
+        
+        .congrats-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: zoomIn 0.5s ease-out;
+        }
+        
+        .congrats-message {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.7s ease-out;
+        }
+        
+        .congrats-confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle, var(--primary-color) 2px, transparent 2px),
+                radial-gradient(circle, var(--primary-hover) 3px, transparent 3px),
+                radial-gradient(circle, var(--light-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px, 5px 5px;
+            animation: confettiBackground 20s linear infinite;
+        }
+        
+        @keyframes confettiBackground {
+            0% { background-position: 0 0, 15px 15px, 5px 5px; }
+            100% { background-position: 500px 500px, 515px 515px, 505px 505px; }
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -369,6 +588,22 @@
         {% endblock %}
     </div>
 
+    <!-- Congratulations Modal -->
+    <div class="modal fade" id="congratsModal" tabindex="-1" aria-labelledby="congratsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content congrats-modal-content">
+                <div class="modal-body d-flex flex-column justify-content-center align-items-center text-center">
+                    <div class="congrats-icon mb-4">
+                        <i class="fas fa-trophy fa-5x"></i>
+                    </div>
+                    <h1 class="congrats-title mb-3" id="congratsModalLabel">Congratulations!</h1>
+                    <p class="congrats-message mb-4" id="congratsModalMessage"></p>
+                    <div class="congrats-confetti"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="mt-5 py-3 text-center">
         <div class="container">
             <p>TaskMaster &copy; {% now "Y" %} | Organize your life with ease</p>
@@ -376,22 +611,45 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Congratulations Modal Script -->
+    <script>
+        function showCongratsModal(message) {
+            const congratsModal = new bootstrap.Modal(document.getElementById('congratsModal'));
+            document.getElementById('congratsModalMessage').textContent = message;
+            congratsModal.show();
+            
+            // Trigger confetti effect
+            confetti({
+                particleCount: 150,
+                spread: 180,
+                origin: { y: 0.6 }
+            });
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                congratsModal.hide();
+            }, 3000);
+        }
+    </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('theme-toggle');
-            const currentTheme = localStorage.getItem('theme') || 'light';
+            const currentTheme = localStorage.getItem('theme') || 'dark'; // Default to dark theme
             const themeIcon = themeToggle.querySelector('i');
             
             // Apply saved theme
             document.documentElement.setAttribute('data-theme', currentTheme);
             
             // Update icon based on current theme
-            if (currentTheme === 'dark') {
+            if (currentTheme === 'light') {
+                themeIcon.classList.remove('fa-adjust');
+                themeIcon.classList.add('fa-moon');
+            } else {
                 themeIcon.classList.remove('fa-adjust');
                 themeIcon.classList.add('fa-sun');
-            } else {
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
             }
 
             themeToggle.addEventListener('click', function() {
@@ -400,12 +658,12 @@
                 localStorage.setItem('theme', newTheme);
                 
                 // Update icon
-                if (newTheme === 'dark') {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                } else {
+                if (newTheme === 'light') {
                     themeIcon.classList.remove('fa-sun');
                     themeIcon.classList.add('fa-moon');
+                } else {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
                 }
             });
         });

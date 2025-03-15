@@ -67,12 +67,27 @@
                                                                 <small class="text-success">{{ stats.completion_rate|floatformat:1 }}% completion rate</small>
                                                             </div>
                                                         {% endif %}
+                                                        
+                                                        {% if stats.all_completed and stats.total > 0 %}
+                                                            <div class="congrats-badge mt-2">
+                                                                <span class="badge bg-success w-100 py-2">All Tasks Complete! 🎉</span>
+                                                            </div>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     {% endfor %}
                                 </div>
+                                
+                                <!-- Hidden div to store congrats messages for JavaScript -->
+                                <div id="congratsMessagesData" style="display: none;" 
+                                     data-has-congrats="{% if congrats_messages %}true{% else %}false{% endif %}">
+                                    {% for goal_type, message in congrats_messages.items %}
+                                        <div data-goal-type="{{ goal_type }}" data-message="{{ message }}"></div>
+                                    {% endfor %}
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -173,6 +188,27 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if there are any congratulatory messages
+        const congratsData = document.getElementById('congratsMessagesData');
+        if (congratsData && congratsData.dataset.hasCongrats === 'true') {
+            // Get all congrats messages
+            const congratsMessages = congratsData.querySelectorAll('div[data-goal-type]');
+            
+            if (congratsMessages.length > 0) {
+                // Get the first message (we'll only show one at a time)
+                const firstMessage = congratsMessages[0].dataset.message;
+                
+                // Show the modal with the message
+                if (typeof showCongratsModal === 'function') {
+                    showCongratsModal(firstMessage);
+                }
+            }
+        }
+    });
+</script>
 
 <style>
     /* Task Item Styles */
@@ -289,19 +325,19 @@
     }
     
     .goal-card-daily {
-        border-top: 3px solid #3b82f6;
+        border-top: 3px solid #00ADB5;
     }
     
     .goal-card-weekly {
-        border-top: 3px solid #8b5cf6;
+        border-top: 3px solid #00c3cc;
     }
     
     .goal-card-monthly {
-        border-top: 3px solid #ec4899;
+        border-top: 3px solid #00d6e0;
     }
     
     .goal-card-yearly {
-        border-top: 3px solid #f59e0b;
+        border-top: 3px solid #00e8f2;
     }
     
     .goal-title {
@@ -321,22 +357,22 @@
     
     /* Badge Styles */
     .goal-badge-daily {
-        background-color: #3b82f6;
+        background-color: #00ADB5;
         font-size: 0.7rem;
     }
     
     .goal-badge-weekly {
-        background-color: #8b5cf6;
+        background-color: #00c3cc;
         font-size: 0.7rem;
     }
     
     .goal-badge-monthly {
-        background-color: #ec4899;
+        background-color: #00d6e0;
         font-size: 0.7rem;
     }
     
     .goal-badge-yearly {
-        background-color: #f59e0b;
+        background-color: #00e8f2;
         font-size: 0.7rem;
     }
     

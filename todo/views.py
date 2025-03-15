@@ -19,10 +19,10 @@ def todo_list(request):
     
     # Calculate progress statistics for each goal type
     goal_stats = {
-        'daily': {'total': 0, 'completed': 0, 'progress': 0},
-        'weekly': {'total': 0, 'completed': 0, 'progress': 0},
-        'monthly': {'total': 0, 'completed': 0, 'progress': 0},
-        'yearly': {'total': 0, 'completed': 0, 'progress': 0},
+        'daily': {'total': 0, 'completed': 0, 'progress': 0, 'all_completed': False},
+        'weekly': {'total': 0, 'completed': 0, 'progress': 0, 'all_completed': False},
+        'monthly': {'total': 0, 'completed': 0, 'progress': 0, 'all_completed': False},
+        'yearly': {'total': 0, 'completed': 0, 'progress': 0, 'all_completed': False},
     }
     
     # Get all todos for statistics (regardless of filter)
@@ -32,16 +32,32 @@ def todo_list(request):
         goal_stats[goal_type]['total'] += 1
         if todo.completed:
             goal_stats[goal_type]['completed'] += 1
-        goal_stats[goal_type]['progress'] += todo.progress
     
-    # Calculate average progress for each goal type
+    # Calculate progress based on completion rate for each goal type
     for goal_type, stats in goal_stats.items():
         if stats['total'] > 0:
-            stats['avg_progress'] = stats['progress'] / stats['total']
+            # Calculate progress as percentage of completed tasks
+            stats['avg_progress'] = (stats['completed'] / stats['total']) * 100
             stats['completion_rate'] = (stats['completed'] / stats['total']) * 100
+            # Check if all tasks are completed
+            stats['all_completed'] = stats['completed'] == stats['total'] and stats['total'] > 0
         else:
             stats['avg_progress'] = 0
             stats['completion_rate'] = 0
+            stats['all_completed'] = False
+    
+    # Prepare congratulatory messages
+    congrats_messages = {}
+    for goal_type, stats in goal_stats.items():
+        if stats['all_completed'] and stats['total'] > 0:
+            if goal_type == 'daily':
+                congrats_messages[goal_type] = "🎉 Congratulations! You've completed all your daily tasks!"
+            elif goal_type == 'weekly':
+                congrats_messages[goal_type] = "🏆 Amazing job! All your weekly goals are complete!"
+            elif goal_type == 'monthly':
+                congrats_messages[goal_type] = "🌟 Impressive! You've achieved all your monthly objectives!"
+            elif goal_type == 'yearly':
+                congrats_messages[goal_type] = "🥇 Outstanding achievement! You've completed all your yearly goals!"
     
     if request.method == 'POST':
         form = TodoForm(request.POST)
@@ -54,6 +70,7 @@ def todo_list(request):
         'form': form,
         'goal_stats': goal_stats,
         'current_filter': goal_type_filter,
+        'congrats_messages': congrats_messages,
     })
 
 def todo_update(request, pk):
@@ -79,6 +96,11 @@ def todo_delete(request, pk):
 def todo_toggle(request, pk):
     todo = get_object_or_404(Todo, pk=pk)
     todo.completed = not todo.completed
+    
+    # If task is marked as completed, set progress to 100%
+    if todo.completed:
+        todo.progress = 100
+    
     todo.save()
     return redirect('todo_list')
 
