@@ -1,19 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Todo
 from .forms import TodoForm
 
 # Create your views here.
 
+@login_required
 def todo_list(request):
     # Get filter parameters
     goal_type_filter = request.GET.get('goal_type', '')
     
     # Apply filters
     if goal_type_filter and goal_type_filter in ['daily', 'weekly', 'monthly', 'yearly']:
-        todos = Todo.objects.filter(goal_type=goal_type_filter)
+        todos = Todo.objects.filter(goal_type=goal_type_filter, user=request.user)
     else:
-        todos = Todo.objects.all()
+        todos = Todo.objects.filter(user=request.user)
     
     form = TodoForm()
     
@@ -26,7 +28,7 @@ def todo_list(request):
     }
     
     # Get all todos for statistics (regardless of filter)
-    all_todos = Todo.objects.all()
+    all_todos = Todo.objects.filter(user=request.user)
     for todo in all_todos:
         goal_type = todo.goal_type
         goal_stats[goal_type]['total'] += 1
@@ -62,7 +64,9 @@ def todo_list(request):
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
-            form.save()
+            todo = form.save(commit=False)
+            todo.user = request.user
+            todo.save()
             messages.success(request, 'Task added successfully!')
             return redirect('todo_list')
     return render(request, 'todo/todo_list.html', {
@@ -73,8 +77,9 @@ def todo_list(request):
         'congrats_messages': congrats_messages,
     })
 
+@login_required
 def todo_update(request, pk):
-    todo = get_object_or_404(Todo, pk=pk)
+    todo = get_object_or_404(Todo, pk=pk, user=request.user)
     if request.method == 'POST':
         form = TodoForm(request.POST, instance=todo)
         if form.is_valid():
@@ -85,16 +90,18 @@ def todo_update(request, pk):
         form = TodoForm(instance=todo)
     return render(request, 'todo/todo_update.html', {'form': form})
 
+@login_required
 def todo_delete(request, pk):
-    todo = get_object_or_404(Todo, pk=pk)
+    todo = get_object_or_404(Todo, pk=pk, user=request.user)
     if request.method == 'POST':
         todo.delete()
         messages.success(request, 'Task deleted successfully!')
         return redirect('todo_list')
     return render(request, 'todo/todo_delete.html', {'todo': todo})
 
+@login_required
 def todo_toggle(request, pk):
-    todo = get_object_or_404(Todo, pk=pk)
+    todo = get_object_or_404(Todo, pk=pk, user=request.user)
     todo.completed = not todo.completed
     
     # If task is marked as completed, set progress to 100%
@@ -104,8 +111,9 @@ def todo_toggle(request, pk):
     todo.save()
     return redirect('todo_list')
 
+@login_required
 def update_progress(request, pk):
-    todo = get_object_or_404(Todo, pk=pk)
+    todo = get_object_or_404(Todo, pk=pk, user=request.user)
     if request.method == 'POST':
         progress = request.POST.get('progress')
         try:

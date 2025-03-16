@@ -1,0 +1,234 @@
+{% extends 'todo/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-card-inner">
+                    <div class="auth-header">
+                        <h2 class="auth-title">Welcome Back</h2>
+                        <p class="auth-subtitle">Log in to continue your productivity journey</p>
+                    </div>
+                    
+                    <form method="post" class="auth-form">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary auth-btn">
+                                <i class="fas fa-sign-in-alt me-2"></i>Log In
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="auth-footer mt-4 text-center">
+                        <p>Don't have an account? <a href="{% url 'register' %}" class="auth-link">Sign Up</a></p>
+                    </div>
+                </div>
+                
+                <div class="auth-decoration">
+                    <div class="auth-blob"></div>
+                    <div class="auth-circle auth-circle-1"></div>
+                    <div class="auth-circle auth-circle-2"></div>
+                    <div class="auth-circle auth-circle-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .auth-container {
+        perspective: 1000px;
+        padding: 2rem 0;
+    }
+    
+    .auth-card {
+        position: relative;
+        background-color: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+    }
+    
+    .auth-card:hover {
+        transform: translateY(-10px) rotateX(5deg);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+    
+    .auth-card-inner {
+        padding: 3rem;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .auth-title {
+        color: var(--primary-color);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+        animation: fadeInDown 0.8s ease;
+    }
+    
+    .auth-subtitle {
+        color: var(--light-text);
+        font-size: 1.1rem;
+        animation: fadeInUp 0.8s ease;
+    }
+    
+    .auth-form {
+        animation: fadeIn 1s ease;
+    }
+    
+    .auth-btn {
+        padding: 0.8rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+        border: none;
+        box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.4);
+        transition: all 0.3s ease;
+    }
+    
+    .auth-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(var(--primary-color-rgb), 0.6);
+    }
+    
+    .auth-link {
+        color: var(--primary-color);
+        font-weight: 600;
+        text-decoration: none;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .auth-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary-color);
+        transition: width 0.3s ease;
+    }
+    
+    .auth-link:hover::after {
+        width: 100%;
+    }
+    
+    .auth-decoration {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+    
+    .auth-blob {
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 80%;
+        height: 80%;
+        background: radial-gradient(circle, rgba(var(--primary-color-rgb), 0.1) 0%, rgba(var(--primary-color-rgb), 0) 70%);
+        border-radius: 50%;
+        animation: rotate 20s linear infinite;
+    }
+    
+    .auth-circle {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(var(--primary-color-rgb), 0.1);
+    }
+    
+    .auth-circle-1 {
+        width: 100px;
+        height: 100px;
+        bottom: -30px;
+        left: -30px;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .auth-circle-2 {
+        width: 50px;
+        height: 50px;
+        top: 20%;
+        right: 10%;
+        animation: float 8s ease-in-out infinite reverse;
+    }
+    
+    .auth-circle-3 {
+        width: 70px;
+        height: 70px;
+        bottom: 20%;
+        right: 5%;
+        animation: float 7s ease-in-out infinite 1s;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0); }
+    }
+    
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    /* Form styling */
+    .form-control, .form-select {
+        background-color: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--text-color);
+        border-radius: 10px;
+        padding: 0.8rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25);
+    }
+    
+    .form-label {
+        color: var(--text-color);
+        font-weight: 500;
+    }
+    
+    .form-text {
+        color: var(--light-text);
+    }
+</style>
+{% endblock %} 
